@@ -27,11 +27,11 @@
         .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 14px; font-weight: bold; transition: color 0.3s; }
         .nav-links a:hover { color: #ff3333; }
 
-        /* Hero Section - Ora trasparente per mostrare subito lo sfondo della band */
+        /* Hero Section */
         .hero { height: calc(100vh - 80px); background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-size: 80px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 4px; }
         .hero p { font-size: 20px; color: #ff3333; margin-bottom: 30px; letter-spacing: 2px; }
-        .btn { display: inline-block; background-color: #ff3333; color: #fff; padding: 15px 40px; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 2px; transition: all 0.3s; border: 2px solid #ff3333; }
+        .btn { display: inline-block; background-color: #ff3333; color: #fff; padding: 15px 40px; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 2px; transition: all 0.3s; border: 2px solid #ff3333; cursor: pointer; }
         .btn:hover { background-color: transparent; color: #ff3333; }
 
         /* Sezioni Generiche */
@@ -55,14 +55,14 @@
         .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .photo-item:hover img { transform: scale(1.08); }
 
-        /* Lightbox (Ingrandimento Foto) */
+        /* Lightbox */
         .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10005; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .lightbox.active { opacity: 1; pointer-events: auto; }
         .lightbox img { max-width: 90%; max-height: 85vh; border: 2px solid #ff3333; border-radius: 4px; box-shadow: 0 0 30px rgba(255,51,51,0.3); }
         .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; background: none; border: none; }
         .lightbox-close:hover { color: #ff3333; }
 
-        /* Area Locandine / Gallery (Centrata e ottimizzata) */
+        /* Area Locandine */
         .poster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 400px)); gap: 30px; justify-content: center; }
         .poster-card { background-color: #1e1e1e; border: 1px solid #333; border-radius: 4px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
         .poster-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255, 51, 51, 0.2); }
@@ -71,7 +71,7 @@
         .poster-info h3 { font-size: 20px; margin-bottom: 5px; text-transform: uppercase; color: #ff3333; }
         .poster-info p { font-size: 14px; color: #aaa; line-height: 1.5; }
 
-        /* POP-UP MODAL OVERLAY (Locandina automatica) */
+        /* POP-UP MODAL OVERLAY */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background-color: #1e1e1e; border: 2px solid #ff3333; padding: 25px; max-width: 420px; width: 90%; position: relative; border-radius: 4px; text-align: center; box-shadow: 0 0 30px rgba(255, 51, 51, 0.3); transform: scale(0.8); transition: transform 0.4s ease; }
@@ -81,6 +81,17 @@
         .modal-content img { width: 100%; max-height: 65vh; object-fit: contain; margin-top: 15px; border-radius: 4px; display: block; }
         .modal-content h2 { text-transform: uppercase; font-size: 22px; color: #ff3333; margin-top: 10px; }
         .modal-content p { font-size: 14px; color: #ccc; margin: 5px 0 5px; }
+
+        /* Stili specifici per la griglia Contatti */
+        .contacts-wrapper { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .contact-box { background-color: #1e1e1e; border: 1px solid #333; padding: 30px 20px; border-radius: 4px; transition: transform 0.3s; }
+        .contact-box:hover { transform: translateY(-3px); border-color: #ff3333; }
+        .contact-box h3 { text-transform: uppercase; font-size: 18px; color: #ff3333; margin-bottom: 15px; letter-spacing: 1px; }
+        .contact-box p { font-size: 16px; color: #ccc; line-height: 1.6; }
+        .contact-box a { color: #fff; text-decoration: none; transition: color 0.3s; font-weight: bold; }
+        .contact-box a:hover { color: #ff3333; }
+        .social-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+        .social-btn { display: inline-block; padding: 10px 20px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 12px; border-radius: 2px; transition: background 0.3s; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -129,7 +140,7 @@
     <section id="storia">
         <h2 class="section-title">La nostra storia</h2>
         <div class="story-content">
-            <p>La Band i "RI-BELLI" è un progetto pop rock formatosi nel 2025 che attraversa epoche e sonorità, spaziando da cover italiane e internazionali. Il repertorio propone grandi classici rivisitati con arrangiamenti originali e un’impronta personale, capaci di fondere energia e raffinatezza.</p>
+            <p>La Band i "RI-BELLI" è un progetto pop rock formatosi nel 2025 che attravera epoche e sonorità, spaziando da cover italiane e internazionali. Il repertorio propone grandi classici rivisitati con arrangiamenti originali e un’impronta personale, capaci di fondere energia e raffinatezza.</p>
 
             <p>La band è composta da:<br>
             - Katia Tabuani - voce<br>
@@ -189,7 +200,7 @@
         </div>
     </section>
 
-    <!-- Struttura per l'ingrandimento delle foto (Lightbox) -->
+    <!-- Struttura Lightbox -->
     <div id="lightboxFoto" class="lightbox" onclick="chiudiFoto()">
         <button class="lightbox-close">&times;</button>
         <img id="imgIngrandita" src="" alt="Foto Ingrandita">
@@ -209,17 +220,48 @@
                 </div>
             </div>
 
-        </div> <!-- Chiusura corretta della griglia -->
+        </div>
     </section>
 
-    <!-- Sezione Contatti -->
-    <section id="contatti" style="text-align: center; padding: 60px 20px;">
-        <h2 class="section-title">Contatti</h2>
-        <p>Email: info@ri-belli.it</p>
-        <div style="margin-top: 20px;">
-            <a href="https://www.facebook.com/share/1HfJkzC1Hw/" target="_blank" rel="noopener noreferrer" class="btn" style="background-color: #1877F2; border-color: #1877F2;">
-                Seguici su Facebook
-            </a>
+    <!-- SEZIONE CONTATTI AGGIORNATA (Sostituisci o compila i campi qui sotto) -->
+    <section id="contatti">
+        <h2 class="section-title">Contatti & Booking</h2>
+        <div class="contacts-wrapper">
+            
+            <!-- Box Mail -->
+            <div class="contact-box">
+                <h3>Scrivici una Mail</h3>
+                <p>Per info, live e richieste di prenotazione:</p>
+                <p style="margin-top: 10px;">
+                    <a href="mailto:info@ri-belli.it">info@ri-belli.it</a>
+                </p>
+            </div>
+
+            <!-- Box Telefono / Booking -->
+            <div class="contact-box">
+                <h3>Management & Live</h3>
+                <p>Vuoi i Ri-Belli nel tuo locale? Chiamaci:</p>
+
+                <p style="margin-top: 10px;">
+                   Ale <a href="tel:+393346165265">+39 334 6165265</a>			
+</p>
+
+ <p style="margin-top: 10px;">
+Carlo <a href="tel:+393666208494">+39 366 6208494</a> 
+                </p>
+            </div>
+
+            <!-- Box Social -->
+            <div class="contact-box">
+                <h3>Seguici Online</h3>
+                <p>Rimani sempre aggiornato sulle nostre date:</p>
+                <div class="social-buttons">
+                    <a href="https://www.facebook.com/share/1HfJkzC1Hw/" target="_blank" rel="noopener noreferrer" class="social-btn" style="background-color: #1877F2; color: #fff;">
+                        Facebook
+                    </a>
+                </div>
+            </div>
+
         </div>
     </section>
 
