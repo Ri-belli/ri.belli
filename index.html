@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ri-belli | Official Website</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        
+        /* Sfondo personalizzato con effetto fisso e velo scuro rock */
+        body { 
+            background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('./immagini/Ri-Belli.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #ffffff; 
+            padding-top: 80px; 
+            scroll-behavior: smooth; 
+        }
+
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: rgba(18, 18, 18, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid #ff3333; }
+        .logo { font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: #ff3333; }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin-left: 25px; }
+        .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 14px; font-weight: bold; transition: color 0.3s; }
+        .nav-links a:hover { color: #ff3333; }
+
+        /* Hero Section - Ora trasparente per mostrare subito lo sfondo della band */
+        .hero { height: calc(100vh - 80px); background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: 80px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 4px; }
+        .hero p { font-size: 20px; color: #ff3333; margin-bottom: 30px; letter-spacing: 2px; }
+        .btn { display: inline-block; background-color: #ff3333; color: #fff; padding: 15px 40px; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 2px; transition: all 0.3s; border: 2px solid #ff3333; }
+        .btn:hover { background-color: transparent; color: #ff3333; }
+
+        /* Sezioni Generiche */
+        section { padding: 80px 50px; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 36px; text-transform: uppercase; text-align: center; margin-bottom: 50px; letter-spacing: 2px; position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background-color: #ff3333; margin: 10px auto 0; }
+
+        /* Stile specifico per la Sezione Storia */
+        .story-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 18px; color: #ccc; }
+        .story-content p { margin-bottom: 20px; }
+
+        /* Area Multimedia */
+        .media-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border: 1px solid #333; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .audio-wrapper { display: flex; flex-direction: column; justify-content: center; }
+
+        /* Sezione Foto & Galleria */
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .photo-item { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid #333; cursor: pointer; height: 250px; }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .photo-item:hover img { transform: scale(1.08); }
+
+        /* Lightbox (Ingrandimento Foto) */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10005; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox img { max-width: 90%; max-height: 85vh; border: 2px solid #ff3333; border-radius: 4px; box-shadow: 0 0 30px rgba(255,51,51,0.3); }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; background: none; border: none; }
+        .lightbox-close:hover { color: #ff3333; }
+
+        /* Area Locandine / Gallery (Centrata e ottimizzata) */
+        .poster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 400px)); gap: 30px; justify-content: center; }
+        .poster-card { background-color: #1e1e1e; border: 1px solid #333; border-radius: 4px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .poster-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255, 51, 51, 0.2); }
+        .poster-img { width: 100%; height: auto; max-height: 500px; object-fit: contain; background-color: #121212; display: block; }
+        .poster-info { padding: 20px; text-align: center; }
+        .poster-info h3 { font-size: 20px; margin-bottom: 5px; text-transform: uppercase; color: #ff3333; }
+        .poster-info p { font-size: 14px; color: #aaa; line-height: 1.5; }
+
+        /* POP-UP MODAL OVERLAY (Locandina automatica) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background-color: #1e1e1e; border: 2px solid #ff3333; padding: 25px; max-width: 420px; width: 90%; position: relative; border-radius: 4px; text-align: center; box-shadow: 0 0 30px rgba(255, 51, 51, 0.3); transform: scale(0.8); transition: transform 0.4s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #fff; font-size: 30px; cursor: pointer; line-height: 1; transition: color 0.2s; z-index: 10002; }
+        .modal-close:hover { color: #ff3333; }
+        .modal-content img { width: 100%; max-height: 65vh; object-fit: contain; margin-top: 15px; border-radius: 4px; display: block; }
+        .modal-content h2 { text-transform: uppercase; font-size: 22px; color: #ff3333; margin-top: 10px; }
+        .modal-content p { font-size: 14px; color: #ccc; margin: 5px 0 5px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 20px; flex-direction: column; gap: 15px; }
+            .nav-links li { margin: 0 10px; }
+            .hero h1 { font-size: 50px; }
+            .media-container { grid-template-columns: 1fr; }
+            section { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FINESTRA IN SOVRAIMPRESSIONE (POP-UP LOCANDINA) -->
+    <div class="modal-overlay" id="popupLocandina">
+        <div class="modal-content">
+            <button class="modal-close" id="chiudiPopup">×</button>
+            <h2>Prossimo Evento!</h2>
+            <p>Non perderti il prossimo live dei Ri-Belli</p>
+            <img src="./immagini/prossimamente.jpg.png" alt="Locandina Evento">
+        </div>
+    </div>
+
+    <!-- Navigazione -->
+    <nav>
+        <div class="logo">RI-BELLI</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#storia">Storia</a></li>
+            <li><a href="#musica">Musica</a></li>
+            <li><a href="#foto">Foto</a></li>
+            <li><a href="#locandine">Locandine</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+            <li><a href="https://www.facebook.com/share/1HfJkzC1Hw/" target="_blank" rel="noopener noreferrer" style="color: #1877F2;">Facebook</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home / Hero -->
+    <div id="home" class="hero">
+        <h1>RI-BELLI</h1>
+        <p>L'attitudine che fa rumore.</p>
+        <a href="#storia" class="btn">Scopri di più</a>
+    </div>
+
+    <!-- Sezione: Storia -->
+    <section id="storia">
+        <h2 class="section-title">La nostra storia</h2>
+        <div class="story-content">
+            <p>La Band i "RI-BELLI" è un progetto pop rock formatosi nel 2025 che attraversa epoche e sonorità, spaziando da cover italiane e internazionali. Il repertorio propone grandi classici rivisitati con arrangiamenti originali e un’impronta personale, capaci di fondere energia e raffinatezza.</p>
+
+            <p>La band è composta da:<br>
+            - Katia Tabuani - voce<br>
+            - Vincenzo Capasso – basso elettrico<br>
+            - Enzo Rossi - chitarre<br>
+            - Alejandro Chirico – chitarre<br>
+            - Carlo Migliorini - Batteria</p>
+
+            <p>Band di nuova formazione ma singolarmente vantano carriere decennali e una solida esperienza live.</p>
+        </div>
+    </section>
+
+    <!-- Sezione: Musica & Video -->
+    <section id="musica">
+        <h2 class="section-title">Contenuti Multimediali</h2>
+        <div class="media-container">
+            
+            <!-- Video 1 Locale -->
+            <div class="video-wrapper">
+                <video controls width="100%" height="100%" style="position: absolute; top: 0; left: 0; object-fit: contain; background: #000;">
+                    <source src="video/video2.mp4.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
+
+            <!-- Video 2 Locale -->
+            <div class="video-wrapper">
+                <video controls width="100%" height="100%" style="position: absolute; top: 0; left: 0; object-fit: contain; background: #000;">
+                    <source src="video/video1.mp4.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sezione: Foto -->
+    <section id="foto">
+        <h2 class="section-title">Galleria Foto</h2>
+        <div class="photo-grid">
+            <!-- Foto 1 -->
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto1.jpeg" alt="Ri-Belli Foto 1">
+            </div>
+            <!-- Foto 2 -->
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto2.jpeg" alt="Ri-Belli Foto 2">
+            </div>
+            <!-- Foto 3 -->
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto3.jpeg" alt="Ri-Belli Foto 3">
+            </div>
+            <!-- Foto 4 -->
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto4.jpeg" alt="Ri-Belli Foto 4">
+            </div>
+        </div>
+    </section>
+
+    <!-- Struttura per l'ingrandimento delle foto (Lightbox) -->
+    <div id="lightboxFoto" class="lightbox" onclick="chiudiFoto()">
+        <button class="lightbox-close">&times;</button>
+        <img id="imgIngrandita" src="" alt="Foto Ingrandita">
+    </div>
+
+    <!-- Sezione: Locandine ed Eventi -->
+    <section id="locandine">
+        <h2 class="section-title">Locandine & Eventi</h2>
+        <div class="poster-grid">
+            
+            <!-- Locandina 1 -->
+            <div class="poster-card">
+                <img class="poster-img" src="./immagini/locandina.jpg.jpeg" alt="Grande Ritorno Live">
+                <div class="poster-info">
+                    <h3>Grande Ritorno Live</h3>
+                    <p>Data: 25 giugno 2026 ore 22:00<br>Location: Officine Motociclistiche Aprilia</p>
+                </div>
+            </div>
+
+        </div> <!-- Chiusura corretta della griglia -->
+    </section>
+
+    <!-- Sezione Contatti -->
+    <section id="contatti" style="text-align: center; padding: 60px 20px;">
+        <h2 class="section-title">Contatti</h2>
+        <p>Email: info@ri-belli.it</p>
+        <div style="margin-top: 20px;">
+            <a href="https://www.facebook.com/share/1HfJkzC1Hw/" target="_blank" rel="noopener noreferrer" class="btn" style="background-color: #1877F2; border-color: #1877F2;">
+                Seguici su Facebook
+            </a>
+        </div>
+    </section>
+
+    <!-- INTERAZIONI JAVASCRIPT -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popupLocandina');
+            const tastoChiudi = document.getElementById('chiudiPopup');
+
+            // Pop-up automatico iniziale dopo 1 secondo
+            setTimeout(() => {
+                if (popup) popup.classList.add('active');
+            }, 1000);
+
+            // Chiusura sulla X della locandina
+            tastoChiudi.addEventListener('click', () => {
+                popup.classList.remove('active');
+            });
+
+            // Chiusura cliccando fuori dalla locandina
+            popup.addEventListener('click', (e) => {
+                if(e.target === popup) {
+                    popup.classList.remove('active');
+                }
+            });
+
+            // Gestione Ingrandimento Foto della Galleria
+            const lightbox = document.getElementById('lightboxFoto');
+            const imgIngrandita = document.getElementById('imgIngrandita');
+
+            window.apriFoto = (elemento) => {
+                const sorgenteImmagine = elemento.querySelector('img').src;
+                imgIngrandita.src = sorgenteImmagine;
+                lightbox.classList.add('active');
+            };
+
+            window.chiudiFoto = () => {
+                lightbox.classList.remove('active');
+            };
+        });
+    </script>
+
+</body>
+</html>
