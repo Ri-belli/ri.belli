@@ -7,16 +7,36 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
-        /* Sfondo personalizzato con effetto fisso e velo scuro rock */
+        /* Lo sfondo del body parte nero per dare massimo risalto al logo */
         body { 
+            background-color: #121212;
+            color: #ffffff; 
+            padding-top: 80px; 
+            scroll-behavior: smooth; 
+            position: relative;
+        }
+
+        /* SFONDO DINAMICO: Creato come livello separato per gestire la comparsa graduale */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('./immagini/Ri-Belli.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            color: #ffffff; 
-            padding-top: 80px; 
-            scroll-behavior: smooth; 
+            z-index: -1;
+            opacity: 0; /* Parte invisibile */
+            transition: opacity 0.6s ease-out; /* Dissolvenza fluida */
+        }
+
+        /* Classe attivata via Javascript quando si fa scroll */
+        body.scrolled::before {
+            opacity: 1; /* Sfondo visibile */
         }
 
         /* Navigation */
@@ -27,15 +47,49 @@
         .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 14px; font-weight: bold; transition: color 0.3s; }
         .nav-links a:hover { color: #ff3333; }
 
-        /* Hero Section */
-        .hero { height: calc(100vh - 80px); background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: 80px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 4px; }
-        .hero p { font-size: 20px; color: #ff3333; margin-bottom: 30px; letter-spacing: 2px; }
-        .btn { display: inline-block; background-color: #ff3333; color: #fff; padding: 15px 40px; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 2px; transition: all 0.3s; border: 2px solid #ff3333; cursor: pointer; }
-        .btn:hover { background-color: transparent; color: #ff3333; }
+        /* Hero Section (Sfondo trasparente per mostrare il nero del body) */
+        .hero { min-height: calc(100vh - 80px); background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
+        
+        /* CONTENITORE CON DIMENSIONE INTERMEDIA: Impostato a 600px per il perfetto equilibrio visivo */
+        .hero-logo-wrapper {
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 30px;
+            border-radius: 14px;
+            border: 3px solid #ff3333;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(255, 51, 51, 0.45), 0 0 60px rgba(255, 51, 51, 0.2);
+            animation: floatLogo 4s ease-in-out infinite;
+            background-color: #121212;
+        }
+        
+        .hero-logo-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-logo-wrapper:hover .hero-logo-img {
+            transform: scale(1.02);
+        }
+
+        /* Animazione fluttuante bilanciata */
+        @keyframes floatLogo {
+            0% { transform: translateY(0px); box-shadow: 0 12px 35px rgba(255, 51, 51, 0.45); }
+            50% { transform: translateY(-10px); box-shadow: 0 22px 45px rgba(255, 51, 51, 0.65), 0 0 70px rgba(255, 51, 51, 0.3); }
+            100% { transform: translateY(0px); box-shadow: 0 12px 35px rgba(255, 51, 51, 0.45); }
+        }
+
+        /* Testo e pulsante adattati alla misura intermedia */
+        .hero p { font-size: 24px; color: #ffffff; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; text-shadow: 3px 3px 5px rgba(0,0,0,0.85); }
+        .hero p span { color: #ff3333; }
+        
+        .btn { display: inline-block; background-color: #ff3333; color: #fff; padding: 16px 45px; font-size: 16px; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 4px; transition: all 0.3s; border: 2px solid #ff3333; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn:hover { background-color: transparent; color: #ff3333; box-shadow: 0 0 20px rgba(255, 51, 51, 0.5); transform: translateY(-2px); }
 
         /* Sezioni Generiche */
-        section { padding: 80px 50px; max-width: 1200px; margin: 0 auto; }
+        section { padding: 80px 50px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         .section-title { font-size: 36px; text-transform: uppercase; text-align: center; margin-bottom: 50px; letter-spacing: 2px; position: relative; }
         .section-title::after { content: ''; display: block; width: 60px; height: 4px; background-color: #ff3333; margin: 10px auto 0; }
 
@@ -47,7 +101,6 @@
         .media-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); gap: 30px; margin-bottom: 50px; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border: 1px solid #333; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .audio-wrapper { display: flex; flex-direction: column; justify-content: center; }
 
         /* Sezione Foto & Galleria */
         .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
@@ -82,7 +135,7 @@
         .modal-content h2 { text-transform: uppercase; font-size: 22px; color: #ff3333; margin-top: 10px; }
         .modal-content p { font-size: 14px; color: #ccc; margin: 5px 0 5px; }
 
-        /* Stili specifici per la griglia Contatti */
+        /* Contatti */
         .contacts-wrapper { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
         .contact-box { background-color: #1e1e1e; border: 1px solid #333; padding: 30px 20px; border-radius: 4px; transition: transform 0.3s; }
         .contact-box:hover { transform: translateY(-3px); border-color: #ff3333; }
@@ -97,7 +150,9 @@
         @media (max-width: 768px) {
             nav { padding: 20px; flex-direction: column; gap: 15px; }
             .nav-links li { margin: 0 10px; }
-            .hero h1 { font-size: 50px; }
+            .hero-logo-wrapper { max-width: 85%; }
+            .hero p { font-size: 18px; }
+            .btn { padding: 14px 35px; font-size: 15px; }
             .media-container { grid-template-columns: 1fr; }
             section { padding: 60px 20px; }
         }
@@ -129,10 +184,12 @@
         </ul>
     </nav>
 
-    <!-- Home / Hero -->
+    <!-- Home / Hero con Grafica Originale INTERMEDIA -->
     <div id="home" class="hero">
-        <h1>RI-BELLI</h1>
-        <p>L'attitudine che fa rumore.</p>
+        <div class="hero-logo-wrapper">
+            <img src="./immagini/Ri-Belli.jpeg" alt="Ri-Belli Official Logo" class="hero-logo-img">
+        </div>
+        <p>L'attitudine che fa <span>rumore</span>.</p>
         <a href="#storia" class="btn">Scopri di più</a>
     </div>
 
@@ -157,23 +214,18 @@
     <section id="musica">
         <h2 class="section-title">Contenuti Multimediali</h2>
         <div class="media-container">
-            
-            <!-- Video 1 Locale -->
             <div class="video-wrapper">
                 <video controls width="100%" height="100%" style="position: absolute; top: 0; left: 0; object-fit: contain; background: #000;">
                     <source src="video/video2.mp4.mp4" type="video/mp4">
                     Il tuo browser non supporta il tag video.
                 </video>
             </div>
-
-            <!-- Video 2 Locale -->
             <div class="video-wrapper">
                 <video controls width="100%" height="100%" style="position: absolute; top: 0; left: 0; object-fit: contain; background: #000;">
                     <source src="video/video1.mp4.mp4" type="video/mp4">
                     Il tuo browser non supporta il tag video.
                 </video>
             </div>
-
         </div>
     </section>
 
@@ -181,19 +233,15 @@
     <section id="foto">
         <h2 class="section-title">Galleria Foto</h2>
         <div class="photo-grid">
-            <!-- Foto 1 -->
             <div class="photo-item" onclick="apriFoto(this)">
                 <img src="./immagini/foto1.jpeg" alt="Ri-Belli Foto 1">
             </div>
-            <!-- Foto 2 -->
             <div class="photo-item" onclick="apriFoto(this)">
                 <img src="./immagini/foto2.jpeg" alt="Ri-Belli Foto 2">
             </div>
-            <!-- Foto 3 -->
             <div class="photo-item" onclick="apriFoto(this)">
                 <img src="./immagini/foto3.jpeg" alt="Ri-Belli Foto 3">
             </div>
-            <!-- Foto 4 -->
             <div class="photo-item" onclick="apriFoto(this)">
                 <img src="./immagini/foto4.jpeg" alt="Ri-Belli Foto 4">
             </div>
@@ -210,8 +258,6 @@
     <section id="locandine">
         <h2 class="section-title">Locandine & Eventi</h2>
         <div class="poster-grid">
-            
-            <!-- Locandina 1 -->
             <div class="poster-card">
                 <img class="poster-img" src="./immagini/locandina.jpg.jpeg" alt="Grande Ritorno Live">
                 <div class="poster-info">
@@ -219,32 +265,19 @@
                     <p>Data: 25 giugno 2026 ore 22:00<br>Location: Officine Motociclistiche Aprilia</p>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- SEZIONE CONTATTI AGGIORNATA (Sostituisci o compila i campi qui sotto) -->
+    <!-- Sezione: Contatti -->
     <section id="contatti">
         <h2 class="section-title">Contatti & Booking</h2>
         <div class="contacts-wrapper">
-            
-            
-
-            <!-- Box Telefono / Booking -->
             <div class="contact-box">
                 <h3>Management & Live</h3>
                 <p>Vuoi i Ri-Belli nel tuo locale? Chiamaci:</p>
-
-                <p style="margin-top: 10px;">
-                   Ale <a href="tel:+393346165265">+39 334 6165265</a>			
-</p>
-
- <p style="margin-top: 10px;">
-Carlo <a href="tel:+393666208494">+39 366 6208494</a> 
-                </p>
+                <p style="margin-top: 10px;">Ale <a href="tel:+393346165265">+39 334 6165265</a></p>
+                <p style="margin-top: 10px;">Carlo <a href="tel:+393666208494">+39 366 6208494</a></p>
             </div>
-
-            <!-- Box Social -->
             <div class="contact-box">
                 <h3>Seguici Online</h3>
                 <p>Rimani sempre aggiornato sulle nostre date:</p>
@@ -254,48 +287,40 @@ Carlo <a href="tel:+393666208494">+39 366 6208494</a>
                     </a>
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- INTERAZIONI JAVASCRIPT -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            // GESTIONE COMPARSA SFONDO SU SCROLL
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 60) {
+                    document.body.classList.add('scrolled');
+                } else {
+                    document.body.classList.remove('scrolled');
+                }
+            });
+
+            // Pop-up automatico iniziale
             const popup = document.getElementById('popupLocandina');
             const tastoChiudi = document.getElementById('chiudiPopup');
-
-            // Pop-up automatico iniziale dopo 1 secondo
             setTimeout(() => {
                 if (popup) popup.classList.add('active');
             }, 1000);
 
-            // Chiusura sulla X della locandina
-            tastoChiudi.addEventListener('click', () => {
-                popup.classList.remove('active');
-            });
+            tastoChiudi.addEventListener('click', () => popup.classList.remove('active'));
+            popup.addEventListener('click', (e) => { if(e.target === popup) popup.classList.remove('active'); });
 
-            // Chiusura cliccando fuori dalla locandina
-            popup.addEventListener('click', (e) => {
-                if(e.target === popup) {
-                    popup.classList.remove('active');
-                }
-            });
-
-            // Gestione Ingrandimento Foto della Galleria
+            // Lightbox Foto
             const lightbox = document.getElementById('lightboxFoto');
             const imgIngrandita = document.getElementById('imgIngrandita');
-
             window.apriFoto = (elemento) => {
-                const sorgenteImmagine = elemento.querySelector('img').src;
-                imgIngrandita.src = sorgenteImmagine;
+                imgIngrandita.src = elemento.querySelector('img').src;
                 lightbox.classList.add('active');
             };
-
-            window.chiudiFoto = () => {
-                lightbox.classList.remove('active');
-            };
+            window.chiudiFoto = () => lightbox.classList.remove('active');
         });
     </script>
-
 </body>
 </html>
