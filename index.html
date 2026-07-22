@@ -8,7 +8,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
-        /* Lo sfondo del body parte nero per dare massimo risalto al logo */
+        /* Lo sfondo del body parte nero */
         body { 
             background-color: #121212;
             color: #ffffff; 
@@ -17,7 +17,7 @@
             position: relative;
         }
 
-        /* SFONDO DINAMICO: Creato come livello separato per gestire la comparsa graduale .*/
+        /* SFONDO DINAMICO */
         body::before {
             content: '';
             position: fixed;
@@ -31,13 +31,12 @@
             background-attachment: fixed;
             background-repeat: no-repeat;
             z-index: -1;
-            opacity: 0; /* Parte invisibile */
-            transition: opacity 0.6s ease-out; /* Dissolvenza fluida */
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
         }
 
-        /* Classe attivata via Javascript quando si fa scroll */
         body.scrolled::before {
-            opacity: 1; /* Sfondo visibile */
+            opacity: 1;
         }
 
         /* Navigation */
@@ -48,10 +47,9 @@
         .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 14px; font-weight: bold; transition: color 0.3s; }
         .nav-links a:hover { color: #ff3333; }
 
-        /* Hero Section (Sfondo trasparente per mostrare il nero del body) */
+        /* Hero Section */
         .hero { min-height: calc(100vh - 80px); background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
         
-        /* CONTENITORE CON DIMENSIONE INTERMEDIA: Impostato a 600px per il perfetto equilibrio visivo */
         .hero-logo-wrapper {
             max-width: 600px;
             width: 100%;
@@ -75,14 +73,12 @@
             transform: scale(1.02);
         }
 
-        /* Animazione fluttuante bilanciata */
         @keyframes floatLogo {
             0% { transform: translateY(0px); box-shadow: 0 12px 35px rgba(255, 51, 51, 0.45); }
             50% { transform: translateY(-10px); box-shadow: 0 22px 45px rgba(255, 51, 51, 0.65), 0 0 70px rgba(255, 51, 51, 0.3); }
             100% { transform: translateY(0px); box-shadow: 0 12px 35px rgba(255, 51, 51, 0.45); }
         }
 
-        /* Testo e pulsante adattati alla misura intermedia */
         .hero p { font-size: 24px; color: #ffffff; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; text-shadow: 3px 3px 5px rgba(0,0,0,0.85); }
         .hero p span { color: #ff3333; }
         
@@ -94,20 +90,59 @@
         .section-title { font-size: 36px; text-transform: uppercase; text-align: center; margin-bottom: 50px; letter-spacing: 2px; position: relative; }
         .section-title::after { content: ''; display: block; width: 60px; height: 4px; background-color: #ff3333; margin: 10px auto 0; }
 
-        /* Stile specifico per la Sezione Storia */
+        /* Sezione Storia */
         .story-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 18px; color: #ccc; }
         .story-content p { margin-bottom: 20px; }
 
-        /* Area Multimedia */
-        .media-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border: 1px solid #333; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        /* UNIFORMAZIONE GRIGLIE MEDIA & FOTO (Risolve lo sfasamento) */
+        .media-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .video-wrapper { 
+            position: relative; 
+            width: 100%;
+            aspect-ratio: 16 / 9; 
+            background: #000; 
+            border: 1px solid #333; 
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .video-wrapper video { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            display: block;
+        }
 
         /* Sezione Foto & Galleria */
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .photo-item { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid #333; cursor: pointer; height: 250px; }
-        .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .photo-item:hover img { transform: scale(1.08); }
+        .photo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .photo-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 6px; 
+            border: 1px solid #333; 
+            cursor: pointer; 
+            aspect-ratio: 1 / 1; /* Foto quadrate ed allineate */
+        }
+        
+        .photo-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.4s ease; 
+            display: block;
+        }
+        
+        .photo-item:hover img { transform: scale(1.06); }
 
         /* Lightbox */
         .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10005; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -116,7 +151,7 @@
         .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; background: none; border: none; }
         .lightbox-close:hover { color: #ff3333; }
 
-        /* Area Locandine */
+        /* Locandine */
         .poster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 400px)); gap: 30px; justify-content: center; }
         .poster-card { background-color: #1e1e1e; border: 1px solid #333; border-radius: 4px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
         .poster-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255, 51, 51, 0.2); }
@@ -125,7 +160,7 @@
         .poster-info h3 { font-size: 20px; margin-bottom: 5px; text-transform: uppercase; color: #ff3333; }
         .poster-info p { font-size: 14px; color: #aaa; line-height: 1.5; }
 
-        /* POP-UP MODAL OVERLAY */
+        /* Modal Pop-up */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background-color: #1e1e1e; border: 2px solid #ff3333; padding: 25px; max-width: 420px; width: 90%; position: relative; border-radius: 4px; text-align: center; box-shadow: 0 0 30px rgba(255, 51, 51, 0.3); transform: scale(0.8); transition: transform 0.4s ease; }
@@ -154,14 +189,13 @@
             .hero-logo-wrapper { max-width: 85%; }
             .hero p { font-size: 18px; }
             .btn { padding: 14px 35px; font-size: 15px; }
-            .media-container { grid-template-columns: 1fr; }
             section { padding: 60px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- FINESTRA IN SOVRAIMPRESSIONE (POP-UP LOCANDINA) -->
+    <!-- POP-UP LOCANDINA -->
     <div class="modal-overlay" id="popupLocandina">
         <div class="modal-content">
             <button class="modal-close" id="chiudiPopup">×</button>
@@ -185,7 +219,7 @@
         </ul>
     </nav>
 
-    <!-- Home / Hero con Grafica Originale INTERMEDIA -->
+    <!-- Home / Hero -->
     <div id="home" class="hero">
         <div class="hero-logo-wrapper">
             <img src="./immagini/Ri-Belli.jpeg" alt="Ri-Belli Official Logo" class="hero-logo-img">
@@ -212,98 +246,99 @@
     </section>
 
     <!-- Sezione: Musica & Video -->
-<section id="musica">
-  <h2 class="section-title">Contenuti Multimediali</h2>
-  
-  <div class="media-container">
-    
-    <div class="video-wrapper">
-      <video controls preload="metadata">
-        <source src="video/video1.mp4" type="video/mp4">
-        Il tuo browser non supporta il tag video.
-      </video>
-    </div>
+    <section id="musica">
+        <h2 class="section-title">Contenuti Multimediali</h2>
+        
+        <div class="media-container">
+            <div class="video-wrapper">
+                <video controls preload="metadata">
+                    <source src="video/video1.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
 
-    <div class="video-wrapper">
-      <video controls preload="metadata">
-        <source src="video/video2.mp4" type="video/mp4">
-        Il tuo browser non supporta il tag video.
-      </video>
-    </div>
+            <div class="video-wrapper">
+                <video controls preload="metadata">
+                    <source src="video/video2.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
 
-    <div class="video-wrapper">
-      <video controls preload="metadata">
-        <source src="video/video3.mp4" type="video/mp4">
-        Il tuo browser non supporta il tag video.
-      </video>
-    </div>
+            <div class="video-wrapper">
+                <video controls preload="metadata">
+                    <source src="video/video3.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
 
-    <div class="video-wrapper">
-      <video controls preload="metadata">
-        <source src="video/video4.mp4" type="video/mp4">
-        Il tuo browser non supporta il tag video.
-      </video>
-    </div>
+            <div class="video-wrapper">
+                <video controls preload="metadata">
+                    <source src="video/video4.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
 
-<div class="video-wrapper">
-      <video controls preload="metadata">
-        <source src="video/video5.mp4" type="video/mp4">
-        Il tuo browser non supporta il tag video.
-      </video>
-    </div>
-      
+            <div class="video-wrapper">
+                <video controls preload="metadata">
+                    <source src="video/video5.mp4" type="video/mp4">
+                    Il tuo browser non supporta il tag video.
+                </video>
+            </div>
+        </div> <!-- CHIUSURA media-container -->
+    </section> <!-- CHIUSURA sezione musica -->
+
     <!-- Sezione: Foto -->
-<section id="foto">
-  <h2 class="section-title">Galleria Foto</h2>
-  
-  <div class="photo-grid">
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto1.jpeg" alt="Ri-Belli Foto 1" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto2.jpeg" alt="Ri-Belli Foto 2" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto3.jpeg" alt="Ri-Belli Foto 3" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto4.jpeg" alt="Ri-Belli Foto 4" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto5.jpeg" alt="Ri-Belli Foto 5" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto6.jpeg" alt="Ri-Belli Foto 6" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto7.jpeg" alt="Ri-Belli Foto 7" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto8.jpeg" alt="Ri-Belli Foto 8" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto9.jpeg" alt="Ri-Belli Foto 9" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto10.jpeg" alt="Ri-Belli Foto 10" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto11.jpeg" alt="Ri-Belli Foto 11" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto12.jpeg" alt="Ri-Belli Foto 12" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto13.jpeg" alt="Ri-Belli Foto 13" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto14.jpeg" alt="Ri-Belli Foto 14" loading="lazy">
-    </div>
-    <div class="photo-item" onclick="apriFoto(this)">
-      <img src="./immagini/foto15.jpeg" alt="Ri-Belli Foto 15" loading="lazy">
-    </div>
-  </div>
-</section>
+    <section id="foto">
+        <h2 class="section-title">Galleria Foto</h2>
+        
+        <div class="photo-grid">
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto1.jpeg" alt="Ri-Belli Foto 1" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto2.jpeg" alt="Ri-Belli Foto 2" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto3.jpeg" alt="Ri-Belli Foto 3" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto4.jpeg" alt="Ri-Belli Foto 4" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto5.jpeg" alt="Ri-Belli Foto 5" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto6.jpeg" alt="Ri-Belli Foto 6" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto7.jpeg" alt="Ri-Belli Foto 7" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto8.jpeg" alt="Ri-Belli Foto 8" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto9.jpeg" alt="Ri-Belli Foto 9" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto10.jpeg" alt="Ri-Belli Foto 10" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto11.jpeg" alt="Ri-Belli Foto 11" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto12.jpeg" alt="Ri-Belli Foto 12" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto13.jpeg" alt="Ri-Belli Foto 13" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto14.jpeg" alt="Ri-Belli Foto 14" loading="lazy">
+            </div>
+            <div class="photo-item" onclick="apriFoto(this)">
+                <img src="./immagini/foto15.jpeg" alt="Ri-Belli Foto 15" loading="lazy">
+            </div>
+        </div>
+    </section>
 
     <!-- Struttura Lightbox -->
     <div id="lightboxFoto" class="lightbox" onclick="chiudiFoto()">
@@ -347,10 +382,10 @@
         </div>
     </section>
 
-    <!-- INTERAZIONI JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // GESTIONE COMPARSA SFONDO SU SCROLL
+            // Sfondo dinamico su scroll
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 60) {
                     document.body.classList.add('scrolled');
@@ -359,7 +394,7 @@
                 }
             });
 
-            // Pop-up automatico iniziale
+            // Pop-up automatico
             const popup = document.getElementById('popupLocandina');
             const tastoChiudi = document.getElementById('chiudiPopup');
             setTimeout(() => {
